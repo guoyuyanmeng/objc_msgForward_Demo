@@ -17,14 +17,6 @@
 
 @implementation ViewController
 
-struct kang_struct {
-    char *name;
-#if __OBJC2__
-    char *age;
-#endif
-};
-
-typedef struct kang_struct *Kang;
 
 void dynamicErrorInfo(id self, SEL _cmd)
 {
@@ -79,10 +71,10 @@ void dynamicErrorInfo(id self, SEL _cmd)
 //    [runtimeClass getAllMethods];
     NSArray *classProperty =  [runtimeClass getAllProperties];
     NSLog(@"classProperty:%@",classProperty);
-//    
-//    NSLog(@"                                            ");
-//    NSLog(@"**************************************** \n");
-//    NSLog(@"                                            ");
+    
+    NSLog(@"                                            ");
+    NSLog(@"**************************************** \n");
+    NSLog(@"                                            ");
     
     [self instanceForward:@"instanceForwardTest"];
     [self classFoward:@"classForwardTest"];
@@ -98,28 +90,8 @@ void dynamicErrorInfo(id self, SEL _cmd)
     NSLog(@"**************************************** \n");
     NSLog(@"                                            ");
     
-    [self testClassMethodName:@"classForwardTest"];
-    [self testInstanceMethodName:@"instanceForwardTest"];
     
-    NSLog(@"                                            ");
-    NSLog(@"**************************************** \n");
-    NSLog(@"                                            ");
     
-    [self testClassMethodName:@"classForwardTest"];
-    [self testInstanceMethodName:@"instanceForwardTest"];
-    
-    NSLog(@"                                            ");
-    NSLog(@"**************************************** \n");
-    NSLog(@"                                            ");
-    
-    struct kang_struct kang = {
-        .name = "kang",
-        .age = "27"
-    };
-
-    NSLog(@"                                            ");
-    NSLog(@"**************************************** \n");
-    NSLog(@"                                            ");
 }
 
 
