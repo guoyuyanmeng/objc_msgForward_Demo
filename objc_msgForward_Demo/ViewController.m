@@ -31,24 +31,29 @@ void dynamicErrorInfo(id self, SEL _cmd)
     
     //http://www.jianshu.com/p/6517ab655be7 warnning 解释
     
-    MsgObject *msgObject = [[MsgObject alloc] init];
-//    SEL instanceSEL = NSSelectorFromString(@"instanceForwardTest");
-//    SEL classSEL = NSSelectorFromString(@"classForwardTest");
-//
-//    class_addMethod(msgObject.class, instanceSEL, (IMP)dynamicErrorInfo,"@@:");
-//    class_addMethod(objc_getMetaClass("MsgObject"), classSEL, (IMP)dynamicErrorInfo,"@@:");
     
-//    class_addMethod(msgObject.class, instanceSEL, (IMP)dynamicErrorInfo,"@@:");
-//    Class class = objc_getClass("MsgObject");
-//    Class superclass = objc_getClass((__bridge void *)class);
-//    Class superclass2 = objc_getClass((__bridge void *)superclass);
-//    Class metaclass = objc_getMetaClass("MsgObject");
-//    Class classSuperclass = MsgObject.superclass;
-//    NSLog(@" class isa pointer  %p", class);
-//    NSLog(@" superclass isa pointer  %p", superclass);
-//    NSLog(@" metaclass isa pointer  %p", metaclass);
-//    NSLog(@" classSuperclass isa pointer  %p", classSuperclass);
-//    class_addMethod(superclass2, classSEL, (IMP)dynamicErrorInfo,"@@:");
+    
+    /*
+     //    MsgObject *msgObject = [[MsgObject alloc] init];
+     //    SEL instanceSEL = NSSelectorFromString(@"instanceForwardTest");
+     //    SEL classSEL = NSSelectorFromString(@"classForwardTest");
+     //
+     //    class_addMethod(msgObject.class, instanceSEL, (IMP)dynamicErrorInfo,"@@:");
+     //    class_addMethod(objc_getMetaClass("MsgObject"), classSEL, (IMP)dynamicErrorInfo,"@@:");
+     
+     //    class_addMethod(msgObject.class, instanceSEL, (IMP)dynamicErrorInfo,"@@:");
+     //    Class class = objc_getClass("MsgObject");
+     //    Class superclass = objc_getClass((__bridge void *)class);
+     //    Class superclass2 = objc_getClass((__bridge void *)superclass);
+     //    Class metaclass = objc_getMetaClass("MsgObject");
+     //    Class classSuperclass = MsgObject.superclass;
+     //    NSLog(@" class isa pointer  %p", class);
+     //    NSLog(@" superclass isa pointer  %p", superclass);
+     //    NSLog(@" metaclass isa pointer  %p", metaclass);
+     //    NSLog(@" classSuperclass isa pointer  %p", classSuperclass);
+     //    class_addMethod(superclass2, classSEL, (IMP)dynamicErrorInfo,"@@:");
+     */
+
     
 //
 //
@@ -56,35 +61,38 @@ void dynamicErrorInfo(id self, SEL _cmd)
 //    NSLog(@"**************************************** \n");
 //    NSLog(@"                                            ");
 //
-    class_addIvar(msgObject.class, "age", 8, 8, "NSString");
-    RuntimeObject *runtimeObject = [[RuntimeObject alloc] initWithObject:msgObject];
-//    [runtimeObject getAllMethods];
-    NSArray *instancePropertyB =  [runtimeObject getAllProperties];
-    NSLog(@"instanceProperty:%@",instancePropertyB);
+    
+    /*
+     class_addIvar(msgObject.class, "age", 8, 8, "NSString");
+     RuntimeObject *runtimeObject = [[RuntimeObject alloc] initWithObject:msgObject];
+     //    [runtimeObject getAllMethods];
+     NSArray *instancePropertyB =  [runtimeObject getAllProperties];
+     NSLog(@"instanceProperty:%@",instancePropertyB);
+     
+     
+     NSLog(@"                                            ");
+     NSLog(@"**************************************** \n");
+     NSLog(@"                                            ");
+     
+     RuntimeObject *runtimeClass = [[RuntimeObject alloc] initWithObject:objc_getMetaClass("MsgObject")];
+     //    [runtimeClass getAllMethods];
+     NSArray *classProperty =  [runtimeClass getAllProperties];
+     NSLog(@"classProperty:%@",classProperty);
+     */
     
     
     NSLog(@"                                            ");
     NSLog(@"**************************************** \n");
     NSLog(@"                                            ");
     
-    RuntimeObject *runtimeClass = [[RuntimeObject alloc] initWithObject:objc_getMetaClass("MsgObject")];
-//    [runtimeClass getAllMethods];
-    NSArray *classProperty =  [runtimeClass getAllProperties];
-    NSLog(@"classProperty:%@",classProperty);
+    [self instanceForward:@"personInstanceMethod"];
+
     
     NSLog(@"                                            ");
     NSLog(@"**************************************** \n");
     NSLog(@"                                            ");
     
-    [self instanceForward:@"instanceForwardTest"];
-    [self classFoward:@"classForwardTest"];
-    
-    NSLog(@"                                            ");
-    NSLog(@"**************************************** \n");
-    NSLog(@"                                            ");
-    
-    [self testClassMethodName:@"classForwardTest"];
-    [self testInstanceMethodName:@"instanceForwardTest"];
+//    [self classFoward:@"personClassMethod"];
     
     NSLog(@"                                            ");
     NSLog(@"**************************************** \n");
@@ -111,14 +119,16 @@ void dynamicErrorInfo(id self, SEL _cmd)
 
 // 类的消息转发
 - (void) classFoward:(NSString *)methodName {
+    
     SEL classSEL = NSSelectorFromString(methodName);
+    sel_registerName("methodName");
     [MsgObject performSelector:classSEL];
 }
 
 
 // 实例对象消息转发
 - (void) instanceForward:(NSString *) methodName {
-    MsgObject *obj = [[MsgObject alloc] init];
+    
 //    SEL instanceSEL = NSSelectorFromString(methodName);
 //    [obj performSelector:instanceSEL];
     
@@ -166,29 +176,13 @@ void dynamicErrorInfo(id self, SEL _cmd)
      * 3.最后一步，调用函数指针。
      *
      */
+    
+    MsgObject *obj = [[MsgObject alloc] init];
     SEL selector = NSSelectorFromString(methodName);
 //    ((void (*)(id, SEL))[obj methodForSelector:selector])(obj, selector);
     IMP imp = [obj methodForSelector:selector];
     void (*func)(id, SEL) = (void *)imp;
     func(obj, selector);
 }
-
-- (void) testClassMethodName:(NSString *)methodName {
-
-    SEL classSEL = NSSelectorFromString(methodName);
-    sel_registerName("methodName");
-    [MsgObject performSelector:classSEL];
-}
-
-
-- (void) testInstanceMethodName:(NSString *)methodName {
-    
-    SEL classSEL = NSSelectorFromString(methodName);
-    MsgObject *msgObject = [[MsgObject alloc] init];
-    IMP imp = [msgObject methodForSelector:classSEL];
-    void (*func)(id, SEL) = (void *)imp;
-    func(msgObject, classSEL);
-}
-
 
 @end

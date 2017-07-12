@@ -14,6 +14,7 @@
 		3D0546C61EF2336B00BAE69E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D0546C51EF2336B00BAE69E /* Assets.xcassets */; };
 		3D0546C91EF2336B00BAE69E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D0546C71EF2336B00BAE69E /* LaunchScreen.storyboard */; };
 		3D0546D21EF2339F00BAE69E /* MsgObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0546D11EF2339F00BAE69E /* MsgObject.m */; };
+		3D7585D01F16926A00FE073B /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7585CF1F16926A00FE073B /* Person.m */; };
 		3D85F4001EFBF44500CA59FD /* RuntimeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85F3FF1EFBF44500CA59FD /* RuntimeObject.m */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,8 @@
 		3D0546CA1EF2336B00BAE69E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D0546D01EF2339F00BAE69E /* MsgObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MsgObject.h; sourceTree = "<group>"; };
 		3D0546D11EF2339F00BAE69E /* MsgObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MsgObject.m; sourceTree = "<group>"; };
+		3D7585CE1F16926A00FE073B /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		3D7585CF1F16926A00FE073B /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		3D85F3FE1EFBF44500CA59FD /* RuntimeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RuntimeObject.h; sourceTree = "<group>"; };
 		3D85F3FF1EFBF44500CA59FD /* RuntimeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RuntimeObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -66,6 +69,8 @@
 			children = (
 				3D85F3FE1EFBF44500CA59FD /* RuntimeObject.h */,
 				3D85F3FF1EFBF44500CA59FD /* RuntimeObject.m */,
+				3D7585CE1F16926A00FE073B /* Person.h */,
+				3D7585CF1F16926A00FE073B /* Person.m */,
 				3D0546D01EF2339F00BAE69E /* MsgObject.h */,
 				3D0546D11EF2339F00BAE69E /* MsgObject.m */,
 				3D0546BC1EF2336B00BAE69E /* AppDelegate.h */,
@@ -160,6 +165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D7585D01F16926A00FE073B /* Person.m in Sources */,
 				3D0546D21EF2339F00BAE69E /* MsgObject.m in Sources */,
 				3D0546C11EF2336B00BAE69E /* ViewController.m in Sources */,
 				3D0546BE1EF2336B00BAE69E /* AppDelegate.m in Sources */,

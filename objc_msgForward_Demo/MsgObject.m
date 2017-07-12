@@ -8,6 +8,9 @@
 
 #import "MsgObject.h"
 #import <objc/runtime.h>
+
+#import "Person.h"
+
 @implementation MsgObject
 
 
@@ -63,60 +66,100 @@ void printErrorInfo(id self, SEL _cmd)
 //}
 
 
+
+
+/*
+ 消息转发第一级响应方法：动态添加方法
+ 1、resolveClassMethod
+ 2、resolveInstanceMethod
+ */
 + (BOOL) resolveClassMethod:(SEL)sel {
 
+    NSLog(@"resolveClassMethod");
     BOOL result = [super resolveClassMethod:sel];
-    if (!result) {
-        NSLog(@"dynamically add class method ");
-//        IMP imp = [self methodForSelector:@selector(printErrorInfo:)];
-//        IMP imp = [self instanceMethodForSelector:@selector(printErrorInfo:)];
-//        class_addMethod(self.superclass, sel, imp,"@@:");
+    
+//    if (!result) {
+    
+        /*
+         NSLog(@"dynamically add class method ");
+         //        IMP imp = [self methodForSelector:@selector(printErrorInfo:)];
+         //        IMP imp = [self instanceMethodForSelector:@selector(printErrorInfo:)];
+         //        class_addMethod(self.superclass, sel, imp,"@@:");
         
-        NSString *className  = NSStringFromClass(self);
-        class_addMethod(objc_getMetaClass([className UTF8String]), sel, (IMP)printErrorInfo,"@@:");
+         NSString *className  = NSStringFromClass(self);
+         class_addMethod(objc_getMetaClass([className UTF8String]), sel, (IMP)printErrorInfo,"@@:");
+        */
         
-        //出现crash： +[MsgObject classForwardTest]: unrecognized selector sent to class 0x106405258
-        //不知道为什么
-//        class_addMethod(MsgObject.class, sel, (IMP)printErrorInfo,"@@:");
-        
-        return [super resolveClassMethod:sel];
-    }
+        /* 
+         出现crash： +[MsgObject classForwardTest]: unrecognized selector sent to class 0x106405258
+         不知道为什么
+         class_addMethod(MsgObject.class, sel, (IMP)printErrorInfo,"@@:");
+        */
+//        return [super resolveClassMethod:sel];
+//    }
     
     return result;
 }
 
 + (BOOL)resolveInstanceMethod:(SEL)sel {
-    
+    NSLog(@"resolveInstanceMethod");
     BOOL result = [super resolveInstanceMethod:sel];
-    if (!result) {
-        NSLog(@"dynamically add instance method");
-//        IMP imp = [self instanceMethodForSelector:@selector(printErrorInfo:)];
-//        class_addMethod(self.class, sel, imp,"@@:");
-//        NSString *className  = NSStringFromClass(self);
-        class_addMethod(self.class, sel, (IMP)printErrorInfo,"@@:");
-        return [super resolveInstanceMethod:sel];
-    }
+//    if (!result) {
+        /*
+         NSLog(@"dynamically add instance method");
+         //        IMP imp = [self instanceMethodForSelector:@selector(printErrorInfo:)];
+         //        class_addMethod(self.class, sel, imp,"@@:");
+         //        NSString *className  = NSStringFromClass(self);
+         class_addMethod(self.class, sel, (IMP)printErrorInfo,"@@:");
+         */
+//        return [super resolveInstanceMethod:sel];
+//    }
     
     return result;
 }
 
+
+/*
+ 消息转发第二级方法：转发消息到其他对象
+ forwardingTargetForSelector
+ */
 - (id)forwardingTargetForSelector:(SEL)aSelector {
+//    id result = [super forwardingTargetForSelector:aSelector];
+//    NSLog(@"forwardingTargetForSelector");
+//    return result;
+    
+    Person *person = [[Person alloc]init];
+    return person;
+}
+
++ (id)forwardingTargetForSelector:(SEL)aSelector {
     id result = [super forwardingTargetForSelector:aSelector];
+    NSLog(@"forwardingTargetForSelector");
     return result;
 }
 
+/*
+ 消息转发第三级方法：转发消息到其他对象（多个）
+ */
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
     id result = [super methodSignatureForSelector:aSelector];
+    
+    NSLog(@"methodSignatureForSelector");
     return result;
 }
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
 //    [self performSelector:anInvocation.selector withObject:nil];
         [super forwardInvocation:anInvocation];
+    NSLog(@"forwardInvocation");
 }
 
+/*
+ 消息转发第四级方法：消息未处理的提示
+ */
 - (void)doesNotRecognizeSelector:(SEL)aSelector {
     
+    NSLog(@"doesNotRecognizeSelector");
     [super doesNotRecognizeSelector:aSelector]; // crash
 }
 
